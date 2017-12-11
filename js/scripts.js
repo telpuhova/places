@@ -6,6 +6,11 @@ function Place(location, month, year, notes) {
   this.notes = notes;
 }
 
+Place.prototype.getTime = function() {
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  return months[this.month-1] + " " + this.year;
+}
+
 //ui
 $(document).ready(function() {
   $("#formPlaces").submit(function() {
@@ -15,10 +20,17 @@ $(document).ready(function() {
     var year = $("#year").val();
     var notes = $("#notes").val();
 
-    var place = new Place(location, month, year, notes);
+    var newPlace = new Place(location, month, year, notes);
 
-    $("#result-list").append("<li>" + location + "</li>");
-    $("#contact-display").empty();
-    $("#contact-display").append(location + "<br>" + month + "<br>" + year + "<br>" + notes)
+    $("#result-list").append("<li class='listItem'>" + newPlace.location + "</li>");
+
+    $("ul").show();
+
+    $("li").last().click(function() {
+      // $("this").css('background-color', 'red');
+      $("#contact-display").empty();
+      $("#contact-display").append("<h3>" + newPlace.location + "</h3>" + "<br>" + newPlace.getTime() + "<br>" + newPlace.notes);
+      $("#contact-display").show();
+    });
   });
 });
